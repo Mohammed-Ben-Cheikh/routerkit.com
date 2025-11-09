@@ -26,22 +26,22 @@ const Contact = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gradient">
+        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-gradient">
             Get in Touch
           </h1>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl mx-auto px-4">
             Have questions, suggestions, or want to contribute? We'd love to
             hear from you!
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
           {/* Contact Form */}
-          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-            <h2 className="text-3xl font-bold mb-6 text-accent-300">
+          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-accent-300">
               Send Us a Message
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -123,7 +123,7 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full px-8 py-4 bg-gradient-blue text-primary-500 rounded-lg font-semibold text-lg hover:shadow-lg hover:shadow-accent-300/50 transition-all duration-300 hover:-translate-y-1"
+                className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-blue text-primary-500 rounded-lg font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-accent-300/50 transition-all duration-300 hover:-translate-y-1"
               >
                 Send Message
               </button>
@@ -131,16 +131,16 @@ const Contact = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-8">
-            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-              <h2 className="text-3xl font-bold mb-6 text-accent-300">
+          <div className="space-y-6 sm:space-y-8">
+            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-accent-300">
                 Contact Information
               </h2>
               <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
                     <svg
-                      className="w-6 h-6 text-primary-500"
+                      className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -154,20 +154,22 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Email</h3>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
+                      Email
+                    </h3>
                     <a
                       href="mailto:mohammed.bencheikh.dev@gmail.com"
-                      className="text-white/70 hover:text-accent-300 transition-colors"
+                      className="text-sm sm:text-base text-white/70 hover:text-accent-300 transition-colors break-all"
                     >
                       mohammed.bencheikh.dev@gmail.com
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
                     <svg
-                      className="w-6 h-6 text-primary-500"
+                      className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -175,24 +177,24 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
                       GitHub
                     </h3>
                     <a
                       href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/70 hover:text-accent-300 transition-colors"
+                      className="text-sm sm:text-base text-white/70 hover:text-accent-300 transition-colors break-all"
                     >
                       github.com/Mohammed-Ben-Cheikh/router-kit
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-blue rounded-lg flex items-center justify-center shrink-0">
                     <svg
-                      className="w-6 h-6 text-primary-500"
+                      className="w-5 h-5 sm:w-6 sm:h-6 text-primary-500"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -200,12 +202,14 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">NPM</h3>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
+                      NPM
+                    </h3>
                     <a
                       href="https://www.npmjs.com/package/router-kit"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/70 hover:text-accent-300 transition-colors"
+                      className="text-sm sm:text-base text-white/70 hover:text-accent-300 transition-colors break-all"
                     >
                       npmjs.com/package/router-kit
                     </a>
@@ -214,28 +218,28 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-              <h2 className="text-2xl font-bold mb-4 text-accent-300">
+            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
                 Contributing
               </h2>
-              <p className="text-white/70 mb-4">
+              <p className="text-sm sm:text-base text-white/70 mb-3 sm:mb-4">
                 We welcome contributions! Check out our GitHub repository to:
               </p>
-              <ul className="space-y-2 text-white/70">
+              <ul className="space-y-2 text-sm sm:text-base text-white/70">
                 <li className="flex items-start">
-                  <span className="text-accent-300 mr-2">•</span>
+                  <span className="text-accent-300 mr-2 flex-shrink-0">•</span>
                   <span>Report bugs and issues</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-accent-300 mr-2">•</span>
+                  <span className="text-accent-300 mr-2 flex-shrink-0">•</span>
                   <span>Suggest new features</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-accent-300 mr-2">•</span>
+                  <span className="text-accent-300 mr-2 flex-shrink-0">•</span>
                   <span>Submit pull requests</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-accent-300 mr-2">•</span>
+                  <span className="text-accent-300 mr-2 flex-shrink-0">•</span>
                   <span>Improve documentation</span>
                 </li>
               </ul>

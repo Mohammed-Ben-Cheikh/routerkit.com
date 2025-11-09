@@ -4,24 +4,24 @@ import MainLayout from "../../components/common/Layout/main";
 const About = () => {
   return (
     <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gradient">
+        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-gradient">
             About Router-Kit
           </h1>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl mx-auto px-4">
             A modern, lightweight routing solution built with simplicity and
             developer experience in mind.
           </p>
         </div>
 
         {/* Story Section */}
-        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8 md:p-12 mb-12">
-          <h2 className="text-3xl font-bold mb-6 text-accent-300">
+        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8 md:p-10 lg:p-12 mb-8 sm:mb-10 lg:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-accent-300">
             The Story Behind Router-Kit
           </h2>
-          <div className="space-y-4 text-white/80 text-lg leading-relaxed">
+          <div className="space-y-4 text-white/80 text-sm sm:text-base md:text-lg leading-relaxed">
             <p>
               Router-Kit was born from the need for a simpler, more intuitive
               routing solution for React applications. While existing routing
@@ -43,46 +43,46 @@ const About = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-            <div className="text-4xl mb-4">🎯</div>
-            <h3 className="text-2xl font-bold mb-3 text-accent-300">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-10 lg:mb-12">
+          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-5 sm:p-6 lg:p-8">
+            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🎯</div>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-accent-300">
               Simple by Design
             </h3>
-            <p className="text-white/70">
+            <p className="text-sm sm:text-base text-white/70">
               No unnecessary abstractions. Just the features you need to build
               great applications with React routing.
             </p>
           </div>
 
-          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-            <div className="text-4xl mb-4">⚡</div>
-            <h3 className="text-2xl font-bold mb-3 text-accent-300">
+          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-5 sm:p-6 lg:p-8">
+            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⚡</div>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-accent-300">
               Performance First
             </h3>
-            <p className="text-white/70">
+            <p className="text-sm sm:text-base text-white/70">
               Minimal dependencies and optimized code ensure your application
               stays fast and responsive.
             </p>
           </div>
 
-          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-            <div className="text-4xl mb-4">🔒</div>
-            <h3 className="text-2xl font-bold mb-3 text-accent-300">
+          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-5 sm:p-6 lg:p-8">
+            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🔒</div>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-accent-300">
               Type-Safe
             </h3>
-            <p className="text-white/70">
+            <p className="text-sm sm:text-base text-white/70">
               Written in TypeScript with comprehensive type definitions for the
               best developer experience.
             </p>
           </div>
 
-          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-8">
-            <div className="text-4xl mb-4">🌍</div>
-            <h3 className="text-2xl font-bold mb-3 text-accent-300">
+          <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-5 sm:p-6 lg:p-8">
+            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🌍</div>
+            <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-accent-300">
               Open Source
             </h3>
-            <p className="text-white/70">
+            <p className="text-sm sm:text-base text-white/70">
               MIT licensed and open to contributions from the community. We
               believe in building together.
             </p>
@@ -90,17 +90,19 @@ const About = () => {
         </div>
 
         {/* Author Section */}
-        <div className="bg-gradient-blue rounded-xl p-8 md:p-12 text-primary-500">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-32 h-32 rounded-full bg-primary-500 flex items-center justify-center text-4xl">
+        <div className="bg-gradient-blue rounded-xl p-6 sm:p-8 md:p-10 lg:p-12 text-primary-500">
+          <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-primary-500 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
               👨‍💻
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-3xl font-bold mb-3">Mohammed Ben Cheikh</h3>
-              <p className="text-lg mb-4 opacity-90">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">
+                Mohammed Ben Cheikh
+              </h3>
+              <p className="text-base sm:text-lg mb-3 sm:mb-4 opacity-90">
                 Creator & Maintainer of Router-Kit
               </p>
-              <p className="mb-6 opacity-80">
+              <p className="text-sm sm:text-base mb-4 sm:mb-6 opacity-80">
                 Passionate about building tools that make developers' lives
                 easier. Creating simple, powerful solutions for complex
                 problems.
@@ -128,8 +130,8 @@ const About = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16">
-          <h2 className="text-3xl font-bold mb-6 text-gradient">
+        <div className="text-center mt-10 sm:mt-12 lg:mt-16">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gradient">
             Ready to Get Started?
           </h2>
           <div className="flex flex-wrap justify-center gap-4">

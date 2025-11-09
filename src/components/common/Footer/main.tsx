@@ -3,29 +3,30 @@ import { Link } from "router-kit";
 const MainFooter = () => {
   return (
     <footer className="bg-primary-500 border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 lg:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Company Info */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
-              <span className="text-2xl font-bold text-gradient">
+          <div className="col-span-1 sm:col-span-2">
+            <div className="flex items-center space-x-3 mb-3 sm:mb-4">
+              <span className="text-xl sm:text-2xl font-bold text-gradient">
                 Router-Kit
               </span>
             </div>
-            <p className="text-white/70 text-sm mb-4 max-w-md">
+            <p className="text-white/70 text-xs sm:text-sm mb-3 sm:mb-4 max-w-md">
               A lightweight, minimal, and powerful client-side routing library
               for React applications. Simple yet flexible routing without the
               overhead.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3 sm:space-x-4">
               <a
                 href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/70 hover:text-accent-300 transition-colors"
+                aria-label="GitHub"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -37,9 +38,10 @@ const MainFooter = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/70 hover:text-accent-300 transition-colors"
+                aria-label="NPM"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -51,7 +53,7 @@ const MainFooter = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white text-lg font-semibold mb-4">
+            <h4 className="text-white text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -92,7 +94,9 @@ const MainFooter = () => {
 
           {/* Resources */}
           <div>
-            <h4 className="text-white text-lg font-semibold mb-4">Resources</h4>
+            <h4 className="text-white text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+              Resources
+            </h4>
             <ul className="space-y-2">
               <li>
                 <a
@@ -135,8 +139,8 @@ const MainFooter = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-white/10 mt-8 pt-8 text-sm text-center text-white/60">
-          <p>
+        <div className="border-t border-white/10 mt-6 sm:mt-8 pt-6 sm:pt-8 text-xs sm:text-sm text-center text-white/60">
+          <p className="px-4">
             © {new Date().getFullYear()} Router-Kit by{" "}
             <a
               href="https://mohammedbencheikh.com"
