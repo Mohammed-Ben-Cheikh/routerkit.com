@@ -92,8 +92,13 @@ const About = () => {
         {/* Author Section */}
         <div className="bg-gradient-blue rounded-xl p-6 sm:p-8 md:p-10 lg:p-12 text-primary-500">
           <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-primary-500 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0">
-              👨‍💻
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0">
+              <img
+                src="https://avatars.githubusercontent.com/u/176349318?v=4"
+                alt="Mohammed Ben Cheikh"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">
