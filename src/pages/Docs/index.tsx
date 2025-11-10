@@ -323,6 +323,8 @@ function Navigation() {
                           <code>{`const routes = createRouter([
   { path: "users/:id", component: <UserProfile /> },
   { path: "posts/:category/:slug", component: <BlogPost /> },
+  // Best practice: use descriptive param names — prefer ":stepNumber" over generic ":step" or numbered params like ":step1"
+  { path: "register/steps/:stepNumber", component: <RegisterStep /> },
 ]);`}</code>
                         </pre>
                       </div>
@@ -478,8 +480,9 @@ function MyComponent() {
                       },
                       {
                         name: "useDynamicComponents()",
-                        description: "Conditional component rendering",
-                        code: `const component = useDynamicComponents(views, "view");`,
+                        description:
+                          'Conditional component rendering. The second parameter refers to a URL param — it must match the parameter name used in your route path (e.g. "step" for "register/steps/:step").',
+                        code: `const component = useDynamicComponents(stepsViews, "step");`,
                       },
                     ].map((hook, index) => (
                       <div key={index}>
