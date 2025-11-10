@@ -482,7 +482,35 @@ function MyComponent() {
                         name: "useDynamicComponents()",
                         description:
                           'Conditional component rendering. The second parameter refers to a URL param — it must match the parameter name used in your route path (e.g. "step" for "register/steps/:step").',
-                        code: `const component = useDynamicComponents(stepsViews, "step");`,
+                        code: ` 
+import React from "react";
+import { useDynamicComponents } from "router-kit";
+
+// Example step components (can be separate files)
+const StepOne = () => <h2>Welcome to Step One</h2>;
+const StepTwo = () => <h2>Now you’re on Step Two</h2>;
+const StepThree = () => <h2>Final Step: Review & Submit</h2>;
+
+export default function StepWizard() {
+  // Define your step components in a clear object
+  const steps = {
+    step1: <StepOne />,
+    step2: <StepTwo />,
+    step3: <StepThree />,
+  };
+
+  // Dynamically render the current step component
+  const CurrentStep = useDynamicComponents(steps, "step");
+
+  return (
+    <div className="p-6 max-w-xl mx-auto bg-white rounded-2xl shadow-md">
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">
+        🧭 Dynamic Step Wizard
+      </h1>
+      <div className="border-t border-gray-200 pt-4">{CurrentStep}</div>
+    </div>
+  );
+}`,
                       },
                     ].map((hook, index) => (
                       <div key={index}>
