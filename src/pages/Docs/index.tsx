@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MainLayout from "../../components/common/Layout/main";
+import CodeBlock from "../../components/ui/CodeBlock";
 
 const Docs = () => {
   const [activeSection, setActiveSection] = useState("getting-started");
@@ -197,25 +198,31 @@ const Docs = () => {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
+                    <div>
                       <div className="text-white/60 text-sm mb-2">NPM</div>
-                      <pre className="text-accent-300 font-mono text-sm sm:text-base overflow-x-auto">
-                        npm install router-kit
-                      </pre>
+                      <CodeBlock
+                        code="npm install router-kit"
+                        language="bash"
+                        showLineNumbers={false}
+                      />
                     </div>
 
-                    <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
+                    <div>
                       <div className="text-white/60 text-sm mb-2">Yarn</div>
-                      <pre className="text-accent-300 font-mono text-sm sm:text-base overflow-x-auto">
-                        yarn add router-kit
-                      </pre>
+                      <CodeBlock
+                        code="yarn add router-kit"
+                        language="bash"
+                        showLineNumbers={false}
+                      />
                     </div>
 
-                    <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
+                    <div>
                       <div className="text-white/60 text-sm mb-2">PNPM</div>
-                      <pre className="text-accent-300 font-mono text-sm sm:text-base overflow-x-auto">
-                        pnpm add router-kit
-                      </pre>
+                      <CodeBlock
+                        code="pnpm add router-kit"
+                        language="bash"
+                        showLineNumbers={false}
+                      />
                     </div>
                   </div>
 
@@ -246,9 +253,8 @@ const Docs = () => {
                       <h3 className="text-lg sm:text-xl font-bold mb-3 text-accent-300">
                         1. Create Your Routes
                       </h3>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { createRouter } from "router-kit";
+                      <CodeBlock
+                        code={`import { createRouter } from "router-kit";
 
 const Home = () => <h1>Home Page</h1>;
 const About = () => <h1>About Page</h1>;
@@ -258,35 +264,33 @@ const routes = createRouter([
   { path: "/", component: <Home /> },
   { path: "about", component: <About /> },
   { path: "/404", component: <NotFound /> },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
                       <h3 className="text-lg sm:text-xl font-bold mb-3 text-accent-300">
                         2. Use RouterProvider
                       </h3>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { RouterProvider } from "router-kit";
+                      <CodeBlock
+                        code={`import { RouterProvider } from "router-kit";
 
 function App() {
   return <RouterProvider routes={routes} />;
 }
 
-export default App;`}</code>
-                        </pre>
-                      </div>
+export default App;`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
                       <h3 className="text-lg sm:text-xl font-bold mb-3 text-accent-300">
                         3. Add Navigation
                       </h3>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { Link, NavLink } from "router-kit";
+                      <CodeBlock
+                        code={`import { Link, NavLink } from "router-kit";
 
 function Navigation() {
   return (
@@ -297,9 +301,9 @@ function Navigation() {
       </NavLink>
     </nav>
   );
-}`}</code>
-                        </pre>
-                      </div>
+}`}
+                        language="tsx"
+                      />
                     </div>
                   </div>
                 </div>
@@ -318,16 +322,15 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Define dynamic route parameters using colon syntax:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const routes = createRouter([
+                      <CodeBlock
+                        code={`const routes = createRouter([
   { path: "users/:id", component: <UserProfile /> },
   { path: "posts/:category/:slug", component: <BlogPost /> },
   // Best practice: use descriptive param names — prefer ":stepNumber" over generic ":step" or numbered params like ":step1"
   { path: "register/steps/:stepNumber", component: <RegisterStep /> },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
@@ -337,9 +340,8 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Create complex route hierarchies:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const routes = createRouter([
+                      <CodeBlock
+                        code={`const routes = createRouter([
   {
     path: "dashboard",
     component: <DashboardLayout />,
@@ -348,9 +350,9 @@ function Navigation() {
       { path: "settings", component: <Settings /> },
     ],
   },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
@@ -360,16 +362,15 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Define multiple paths for the same route:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const routes = createRouter([
+                      <CodeBlock
+                        code={`const routes = createRouter([
   { 
     path: ["about", "about-us", "info"], 
     component: <About /> 
   },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
                   </div>
                 </div>
@@ -388,15 +389,14 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Basic navigation with Link component:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { Link } from "router-kit";
+                      <CodeBlock
+                        code={`import { Link } from "router-kit";
 
 <Link to="/about" className="nav-link">
   About Us
-</Link>`}</code>
-                        </pre>
-                      </div>
+</Link>`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
@@ -406,9 +406,8 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Navigation with active state:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { NavLink } from "router-kit";
+                      <CodeBlock
+                        code={`import { NavLink } from "router-kit";
 
 <NavLink 
   to="/about" 
@@ -416,9 +415,9 @@ function Navigation() {
   activeClassName="active"
 >
   About
-</NavLink>`}</code>
-                        </pre>
-                      </div>
+</NavLink>`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
@@ -428,9 +427,8 @@ function Navigation() {
                       <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                         Navigate using the useRouter hook:
                       </p>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`import { useRouter } from "router-kit";
+                      <CodeBlock
+                        code={`import { useRouter } from "router-kit";
 
 function MyComponent() {
   const { navigate } = useRouter();
@@ -443,9 +441,9 @@ function MyComponent() {
   };
   
   return <button onClick={handleClick}>Go</button>;
-}`}</code>
-                        </pre>
-                      </div>
+}`}
+                        language="tsx"
+                      />
                     </div>
                   </div>
                 </div>
@@ -492,14 +490,13 @@ const StepTwo = () => <h2>Now you’re on Step Two</h2>;
 const StepThree = () => <h2>Final Step: Review & Submit</h2>;
 
 export default function StepWizard() {
-  // Define your step components in a clear object
+
   const steps = {
     step1: <StepOne />,
     step2: <StepTwo />,
     step3: <StepThree />,
   };
 
-  // Dynamically render the current step component
   const CurrentStep = useDynamicComponents(steps, "step");
 
   return (
@@ -520,11 +517,7 @@ export default function StepWizard() {
                         <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
                           {hook.description}
                         </p>
-                        <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                          <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                            {hook.code}
-                          </pre>
-                        </div>
+                        <CodeBlock code={hook.code} language="tsx" />
                       </div>
                     ))}
                   </div>
@@ -610,41 +603,38 @@ export default function StepWizard() {
                       <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
                         Blog Platform
                       </h2>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const routes = createRouter([
+                      <CodeBlock
+                        code={`const routes = createRouter([
   { path: "/", component: <BlogHome /> },
   { path: "posts/:category/:slug", component: <BlogPost /> },
   { path: "author/:username", component: <AuthorProfile /> },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
                       <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
                         E-commerce Site
                       </h2>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const routes = createRouter([
+                      <CodeBlock
+                        code={`const routes = createRouter([
   { path: "/", component: <HomePage /> },
   { path: "products", component: <ProductList /> },
   { path: "products/:id", component: <ProductDetail /> },
   { path: "cart", component: <Cart /> },
   { path: "checkout", component: <Checkout /> },
-]);`}</code>
-                        </pre>
-                      </div>
+]);`}
+                        language="tsx"
+                      />
                     </div>
 
                     <div>
                       <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
                         Dashboard Application
                       </h2>
-                      <div className="bg-primary-500/80 rounded-lg p-4 sm:p-6 border border-white/10">
-                        <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                          <code>{`const views = {
+                      <CodeBlock
+                        code={`const views = {
   overview: <OverviewView />,
   analytics: <AnalyticsView />,
   settings: <SettingsView />,
@@ -653,9 +643,9 @@ export default function StepWizard() {
 function Dashboard() {
   const component = useDynamicComponents(views, "view");
   return <div>{component}</div>;
-}`}</code>
-                        </pre>
-                      </div>
+}`}
+                        language="tsx"
+                      />
                     </div>
                   </div>
                 </div>
