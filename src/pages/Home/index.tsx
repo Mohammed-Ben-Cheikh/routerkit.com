@@ -35,18 +35,41 @@ const Home = () => {
             </div>
 
             {/* Code Preview */}
-            <div className="max-w-3xl mx-auto bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6 lg:p-8 text-left">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="ml-4 text-white/60 text-xs sm:text-sm">
+            <div className="max-w-3xl mx-auto bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-white/5 border-b border-white/10">
+                <span className="text-sm font-medium text-white/80">
                   Installation
                 </span>
               </div>
-              <pre className="text-accent-300 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
-                <code>npm install router-kit</code>
-              </pre>
+              <div className="p-4 sm:p-6">
+                <CodeBlock
+                  code="npm install router-kit"
+                  language="bash"
+                  showLineNumbers={false}
+                />
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 rounded-md text-xs font-medium text-white/70">
+                    NPM
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 rounded-md text-xs font-medium text-green-400">
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    TypeScript Ready
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 rounded-md text-xs font-medium text-blue-400">
+                    v1.3.2
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -120,17 +143,17 @@ const Home = () => {
       <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-12 lg:mb-16 text-gradient">
-        Quick Example
+            Quick Example
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
-            Define Your Routes
-          </h3>
-          <CodeBlock
-            language="tsx"
-            showLineNumbers={true}
-            code={`import { createRouter } from "router-kit";
+            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
+                Define Your Routes
+              </h3>
+              <CodeBlock
+                language="tsx"
+                showLineNumbers={true}
+                code={`import { createRouter } from "router-kit";
 
     const routes = createRouter([
       { 
@@ -146,17 +169,17 @@ const Home = () => {
         component: <UserProfile /> 
       },
     ]);`}
-          />
-        </div>
+              />
+            </div>
 
-        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
-            Use the Router
-          </h3>
-          <CodeBlock
-            language="tsx"
-            showLineNumbers={true}
-            code={`import { RouterProvider } from "router-kit";
+            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
+                Use the Router
+              </h3>
+              <CodeBlock
+                language="tsx"
+                showLineNumbers={true}
+                code={`import { RouterProvider } from "router-kit";
 
     function App() {
       return (
@@ -165,8 +188,8 @@ const Home = () => {
     }
 
     export default App;`}
-          />
-        </div>
+              />
+            </div>
           </div>
         </div>
       </section>
