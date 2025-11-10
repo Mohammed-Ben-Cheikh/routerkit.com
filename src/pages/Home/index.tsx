@@ -1,5 +1,6 @@
 import { Link } from "router-kit";
 import MainLayout from "../../components/common/Layout/main";
+import CodeBlock from "../../components/ui/CodeBlock";
 
 const Home = () => {
   return (
@@ -119,49 +120,53 @@ const Home = () => {
       <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-12 lg:mb-16 text-gradient">
-            Quick Example
+        Quick Example
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
-                Define Your Routes
-              </h3>
-              <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                <code>{`import { createRouter } from "router-kit";
+        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
+            Define Your Routes
+          </h3>
+          <CodeBlock
+            language="tsx"
+            showLineNumbers={true}
+            code={`import { createRouter } from "router-kit";
 
-const routes = createRouter([
-  { 
-    path: "/", 
-    component: <Home /> 
-  },
-  { 
-    path: "about", 
-    component: <About /> 
-  },
-  { 
-    path: "users/:id", 
-    component: <UserProfile /> 
-  },
-]);`}</code>
-              </pre>
-            </div>
+    const routes = createRouter([
+      { 
+        path: "/", 
+        component: <Home /> 
+      },
+      { 
+        path: "about", 
+        component: <About /> 
+      },
+      { 
+        path: "users/:id", 
+        component: <UserProfile /> 
+      },
+    ]);`}
+          />
+        </div>
 
-            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
-                Use the Router
-              </h3>
-              <pre className="text-white/80 font-mono text-xs sm:text-sm overflow-x-auto">
-                <code>{`import { RouterProvider } from "router-kit";
+        <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-accent-300">
+            Use the Router
+          </h3>
+          <CodeBlock
+            language="tsx"
+            showLineNumbers={true}
+            code={`import { RouterProvider } from "router-kit";
 
-function App() {
-  return (
-    <RouterProvider routes={routes} />
-  );
-}
+    function App() {
+      return (
+        <RouterProvider routes={routes} />
+      );
+    }
 
-export default App;`}</code>
-              </pre>
-            </div>
+    export default App;`}
+          />
+        </div>
           </div>
         </div>
       </section>
