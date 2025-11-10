@@ -189,6 +189,62 @@ export default App;`}</code>
         </div>
       </section>
 
+      {/* Author / Profile Card Section (responsive) */}
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 text-gradient">
+            Meet the Author
+          </h2>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
+              <div className="flex-shrink-0">
+                <img
+                  src="https://media.licdn.com/dms/image/v2/D4E03AQGhJuTnQ4cv0Q/profile-displayphoto-scale_200_200/B4EZl73Xe4GoAg-/0/1758719736398?e=2147483647&v=beta&t=kxJEWst_U4mKMyZJ3_1Ij3OCiX7RkX4vlqWmuFWxez4"
+                  alt="Mohammed BEN CHEIKH — Développeur Web Full Stack"
+                  className="w-36 h-36 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-white/10"
+                />
+              </div>
+
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg sm:text-xl font-bold text-accent-300">
+                  Mohammed BEN CHEIKH
+                </h3>
+                <p className="text-sm sm:text-base text-white/70 mt-1">
+                  Développeur Web Full Stack — Specializing in Digital
+                  Experience
+                </p>
+                <p className="mt-3 text-sm text-white/70 max-w-xl">
+                  Creator of Router-Kit — building lightweight, type-safe
+                  routing for React. Connect on LinkedIn or explore projects on
+                  GitHub.
+                </p>
+
+                <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-3">
+                  <a
+                    href="https://ma.linkedin.com/in/mohammed-ben-cheikh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-md font-medium hover:bg-white/20 transition"
+                  >
+                    LinkedIn
+                  </a>
+
+                  <a
+                    href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-gradient-blue text-primary-500 rounded-md font-medium hover:shadow-lg transition"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
