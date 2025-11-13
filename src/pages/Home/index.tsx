@@ -43,6 +43,171 @@ const Home = () => {
         />
         <meta name="twitter:image" content="https://routerkit.com/logo.png" />
       </Helmet>
+
+      {/* Big News Section */}
+      <section className="py-12 sm:py-16 lg:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-red-500/10 animate-pulse"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-bold text-sm mb-4 animate-bounce">
+              🎉 BIG NEWS
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gradient">
+              Router-Kit 2.0 is Coming Soon!
+            </h2>
+            <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto">
+              Get ready for the next generation of React routing with powerful
+              new features
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Server-Side Rendering */}
+            <div className="group bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm border border-blue-500/20 rounded-xl p-6 hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+              <div className="flex items-center justify-center w-14 h-14 bg-blue-500/20 rounded-lg mb-4 group-hover:scale-110 transition-transform">
+                <svg
+                  className="w-8 h-8 text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-blue-400 mb-2">
+                Server-Side Rendering
+              </h3>
+              <p className="text-sm text-white/70">
+                Full SSR support for improved SEO and faster initial page loads.
+                Build production-ready apps with ease.
+              </p>
+              <div className="mt-4 inline-flex items-center text-xs font-medium text-blue-400">
+                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                Coming Soon
+              </div>
+            </div>
+
+            {/* Middleware System */}
+            <div className="group bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/20">
+              <div className="flex items-center justify-center w-14 h-14 bg-purple-500/20 rounded-lg mb-4 group-hover:scale-110 transition-transform">
+                <svg
+                  className="w-8 h-8 text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-purple-400 mb-2">
+                Middleware System
+              </h3>
+              <p className="text-sm text-white/70">
+                Powerful middleware hooks for route protection, data loading,
+                logging, and custom route logic.
+              </p>
+              <div className="mt-4 inline-flex items-center text-xs font-medium text-purple-400">
+                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
+                Coming Soon
+              </div>
+            </div>
+
+            {/* Authentication System */}
+            <div className="group bg-gradient-to-br from-green-500/10 to-emerald-500/10 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20">
+              <div className="flex items-center justify-center w-14 h-14 bg-green-500/20 rounded-lg mb-4 group-hover:scale-110 transition-transform">
+                <svg
+                  className="w-8 h-8 text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-green-400 mb-2">
+                Authentication
+              </h3>
+              <p className="text-sm text-white/70">
+                Built-in authentication utilities with JWT support, session
+                management, and protected routes out of the box.
+              </p>
+              <div className="mt-4 inline-flex items-center text-xs font-medium text-green-400">
+                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                Coming Soon
+              </div>
+            </div>
+
+            {/* Role-Based Access Control */}
+            <div className="group bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-sm border border-orange-500/20 rounded-xl p-6 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/20">
+              <div className="flex items-center justify-center w-14 h-14 bg-orange-500/20 rounded-lg mb-4 group-hover:scale-110 transition-transform">
+                <svg
+                  className="w-8 h-8 text-orange-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-orange-400 mb-2">
+                Role Management
+              </h3>
+              <p className="text-sm text-white/70">
+                Advanced role-based access control (RBAC) with permissions, user
+                roles, and granular route access management.
+              </p>
+              <div className="mt-4 inline-flex items-center text-xs font-medium text-orange-400">
+                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2 animate-pulse"></span>
+                Coming Soon
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8">
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Want to be notified?
+                </h3>
+                <p className="text-sm text-white/70">
+                  Star the repository on GitHub to stay updated on Router-Kit
+                  2.0 release
+                </p>
+              </div>
+              <a
+                href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 hover:-translate-y-1 whitespace-nowrap"
+              >
+                ⭐ Star on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-blue opacity-10"></div>
