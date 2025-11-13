@@ -1,9 +1,41 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "router-kit";
 import MainLayout from "../../components/common/Layout/main";
 
 const About = () => {
   return (
     <MainLayout>
+      <Helmet>
+        <title>About Router-Kit | Modern React Routing Solution</title>
+        <meta
+          name="description"
+          content="Learn about Router-Kit: a modern, lightweight routing solution built with simplicity and developer experience in mind. Discover the story, features, and the team behind Router-Kit."
+        />
+        <link rel="canonical" href="https://routerkit.com/about" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://routerkit.com/about" />
+        <meta
+          property="og:title"
+          content="About Router-Kit | Modern React Routing Solution"
+        />
+        <meta
+          property="og:description"
+          content="Learn about Router-Kit: a modern, lightweight routing solution built with simplicity and developer experience in mind."
+        />
+        <meta property="og:image" content="https://routerkit.com/logo.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://routerkit.com/about" />
+        <meta name="twitter:title" content="About Router-Kit" />
+        <meta
+          name="twitter:description"
+          content="Learn about Router-Kit: a modern, lightweight routing solution built with simplicity and developer experience in mind."
+        />
+        <meta name="twitter:image" content="https://routerkit.com/logo.png" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
@@ -95,9 +127,11 @@ const About = () => {
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0">
               <img
                 src="https://avatars.githubusercontent.com/u/176349318?v=4"
-                alt="Mohammed Ben Cheikh"
-                className="w-full h-full object-cover"
+                alt="Mohammed Ben Cheikh - Creator and Maintainer of Router-Kit"
+                width="128"
+                height="128"
                 loading="lazy"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="flex-1 text-center md:text-left">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import MainLayout from "../../components/common/Layout/main";
 
 const Contact = () => {
@@ -26,6 +27,37 @@ const Contact = () => {
 
   return (
     <MainLayout>
+      <Helmet>
+        <title>Contact Us - Router-Kit | Get Support & Contribute</title>
+        <meta
+          name="description"
+          content="Get in touch with the Router-Kit team. Ask questions, report issues, suggest features, or contribute to the project. We're here to help!"
+        />
+        <link rel="canonical" href="https://routerkit.com/contact" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://routerkit.com/contact" />
+        <meta
+          property="og:title"
+          content="Contact Us - Router-Kit | Get Support & Contribute"
+        />
+        <meta
+          property="og:description"
+          content="Get in touch with the Router-Kit team. Ask questions, report issues, suggest features, or contribute to the project."
+        />
+        <meta property="og:image" content="https://routerkit.com/logo.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://routerkit.com/contact" />
+        <meta name="twitter:title" content="Contact Us - Router-Kit" />
+        <meta
+          name="twitter:description"
+          content="Get in touch with the Router-Kit team. Ask questions, report issues, suggest features, or contribute."
+        />
+        <meta name="twitter:image" content="https://routerkit.com/logo.png" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         {/* Hero Section */}
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">

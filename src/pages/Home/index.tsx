@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "router-kit";
 import MainLayout from "../../components/common/Layout/main";
 import CodeBlock from "../../components/ui/CodeBlock";
@@ -5,6 +6,43 @@ import CodeBlock from "../../components/ui/CodeBlock";
 const Home = () => {
   return (
     <MainLayout>
+      <Helmet>
+        <title>
+          Router-Kit - Lightweight React Routing Library | Fast & Simple
+          Navigation
+        </title>
+        <meta
+          name="description"
+          content="Router-Kit is a lightweight, minimal, and powerful client-side routing library for React applications. Easy to use, TypeScript support, and blazing fast performance. Perfect alternative to React Router."
+        />
+        <link rel="canonical" href="https://routerkit.com/" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://routerkit.com/" />
+        <meta
+          property="og:title"
+          content="Router-Kit - Lightweight React Routing Library | Fast & Simple Navigation"
+        />
+        <meta
+          property="og:description"
+          content="Router-Kit is a lightweight, minimal, and powerful client-side routing library for React applications. Easy to use, TypeScript support, and blazing fast performance."
+        />
+        <meta property="og:image" content="https://routerkit.com/logo.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://routerkit.com/" />
+        <meta
+          name="twitter:title"
+          content="Router-Kit - Lightweight React Routing Library"
+        />
+        <meta
+          name="twitter:description"
+          content="A lightweight, minimal, and powerful client-side routing library for React applications. Easy to use with TypeScript support."
+        />
+        <meta name="twitter:image" content="https://routerkit.com/logo.png" />
+      </Helmet>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-blue opacity-10"></div>
@@ -229,7 +267,10 @@ const Home = () => {
               <div className="flex-shrink-0">
                 <img
                   src="https://media.licdn.com/dms/image/v2/D4E03AQGhJuTnQ4cv0Q/profile-displayphoto-scale_200_200/B4EZl73Xe4GoAg-/0/1758719736398?e=2147483647&v=beta&t=kxJEWst_U4mKMyZJ3_1Ij3OCiX7RkX4vlqWmuFWxez4"
-                  alt="Mohammed BEN CHEIKH — Développeur Web Full Stack"
+                  alt="Mohammed BEN CHEIKH — Développeur Web Full Stack et créateur de Router-Kit"
+                  width="200"
+                  height="200"
+                  loading="lazy"
                   className="w-36 h-36 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-white/10"
                 />
               </div>

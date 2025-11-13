@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import MainLayout from "../../components/common/Layout/main";
 import CodeBlock from "../../components/ui/CodeBlock";
 
@@ -30,6 +31,39 @@ const Docs = () => {
 
   return (
     <MainLayout>
+      <Helmet>
+        <title>
+          Documentation - Router-Kit | Complete Guide & API Reference
+        </title>
+        <meta
+          name="description"
+          content="Complete documentation for Router-Kit: installation guide, API reference, hooks, routing examples, and best practices for React applications. Learn how to build fast SPAs with Router-Kit."
+        />
+        <link rel="canonical" href="https://routerkit.com/docs" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://routerkit.com/docs" />
+        <meta
+          property="og:title"
+          content="Documentation - Router-Kit | Complete Guide & API Reference"
+        />
+        <meta
+          property="og:description"
+          content="Complete documentation for Router-Kit: installation guide, API reference, hooks, routing examples, and best practices for React applications."
+        />
+        <meta property="og:image" content="https://routerkit.com/logo.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://routerkit.com/docs" />
+        <meta name="twitter:title" content="Documentation - Router-Kit" />
+        <meta
+          name="twitter:description"
+          content="Complete documentation for Router-Kit: installation, API reference, hooks, and routing examples."
+        />
+        <meta name="twitter:image" content="https://routerkit.com/logo.png" />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Mobile Menu Button */}
         <button
