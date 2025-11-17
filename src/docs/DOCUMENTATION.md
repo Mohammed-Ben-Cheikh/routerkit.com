@@ -1,6 +1,6 @@
 # Router-Kit - Complete Documentation
 
-**Version:** 1.3.1  
+**Version:** 1.3.4  
 **Author:** Mohammed Ben Cheikh  
 **License:** MIT  
 **Repository:** [github.com/Mohammed-Ben-Cheikh/router-kit](https://github.com/Mohammed-Ben-Cheikh/router-kit)

@@ -1,6 +1,6 @@
 # Router-Kit Official Website
 
-![Router-Kit](https://img.shields.io/badge/Router--Kit-v1.3.1-blue)
+![Router-Kit](https://img.shields.io/badge/Router--Kit-v1.3.4-blue)
 ![React](https://img.shields.io/badge/React-19.1.1-61dafb)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -110,11 +110,22 @@ npm run dev
 ### Available Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
+npm run dev             # Start development server
+npm run build           # Build for production
+npm run preview         # Preview production build
+npm run lint            # Run ESLint
+npm run update-version  # Update version references in all files
+npm run validate-version # Validate version consistency
 ```
+
+### Version Management
+
+This project uses a centralized version management system. To update the Router-Kit version:
+
+1. Update the version in `src/config/version.ts`
+2. Run `npm run update-version` to update all references automatically
+
+For more details, see [VERSION_MANAGEMENT.md](./VERSION_MANAGEMENT.md).
 
 ## 🌟 Features
 

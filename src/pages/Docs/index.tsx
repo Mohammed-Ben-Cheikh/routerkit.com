@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import MainLayout from "../../components/common/Layout/main";
 import CodeBlock from "../../components/ui/CodeBlock";
+import { useRouterKitVersion } from "../../hooks/useRouterKitVersion";
 
 const Docs = () => {
   const [activeSection, setActiveSection] = useState("getting-started");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { npmInstallCommand } = useRouterKitVersion();
 
   const sections = [
     { id: "getting-started", title: "Getting Started", icon: "🚀" },
@@ -236,7 +238,7 @@ const Docs = () => {
                     <div>
                       <div className="text-white/60 text-sm mb-2">NPM</div>
                       <CodeBlock
-                        code="npm install router-kit"
+                        code={npmInstallCommand}
                         language="bash"
                         showLineNumbers={false}
                       />
@@ -564,52 +566,66 @@ function App() {
 
                     <div>
                       <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
-                        Comparison: Programmatic vs Declarative
+                      Comparison: Programmatic vs Declarative
                       </h2>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <h3 className="text-lg font-semibold mb-2 text-accent-300">
-                            Programmatic (Existing)
-                          </h3>
-                          <CodeBlock
-                            code={`const routes = createRouter([
-  { path: "/", component: <Home /> },
-  { path: "/about", component: <About /> },
-  {
-    path: "/dashboard",
-    component: <Dashboard />,
-    children: [
-      { path: "settings", component: <Settings /> }
-    ],
-  },
-]);
 
-function App() {
-  return <RouterProvider routes={routes} />;
-}`}
-                            language="tsx"
-                          />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-primary-300/10 border border-primary-300/30 rounded-lg p-4 sm:p-6">
+                        <h3 className="text-lg font-semibold mb-2 text-accent-300 flex items-center justify-between">
+                        <span>Programmatic (Existing)</span>
+                        <span className="text-xs text-white/60 ml-2 hidden sm:inline">
+                          Good for huge configs
+                        </span>
+                        </h3>
+
+                        <div className="overflow-auto rounded-md bg-primary-500/5 p-3">
+                        <CodeBlock
+                          code={`const routes = createRouter([
+            { path: "/", component: <Home /> },
+            { path: "/about", component: <About /> },
+            {
+            path: "/dashboard",
+            component: <Dashboard />,
+            children: [
+              { path: "settings", component: <Settings /> }
+            ],
+            },
+          ]);
+
+          function App() {
+            return <RouterProvider routes={routes} />;
+          }`}
+                          language="tsx"
+                        />
                         </div>
-                        <div>
-                          <h3 className="text-lg font-semibold mb-2 text-accent-300">
-                            Declarative (New)
-                          </h3>
-                          <CodeBlock
-                            code={`function App() {
-  return (
-    <Router>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="settings" element={<Settings />} />
-      </Route>
-    </Router>
-  );
-}`}
-                            language="tsx"
-                          />
+                      </div>
+
+                      <div className="bg-primary-300/10 border border-primary-300/30 rounded-lg p-4 sm:p-6">
+                        <h3 className="text-lg font-semibold mb-2 text-accent-300 flex items-center justify-between">
+                        <span>Declarative (New)</span>
+                        <span className="text-xs text-white/60 ml-2 hidden sm:inline">
+                          Intuitive & visual
+                        </span>
+                        </h3>
+
+                        <div className="overflow-auto rounded-md bg-primary-500/5 p-3">
+                        <CodeBlock
+                          code={`function App() {
+            return (
+            <Router>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              
+              <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="settings" element={<Settings />} />
+              </Route>
+            </Router>
+            );
+          }`}
+                          language="tsx"
+                        />
                         </div>
+                      </div>
                       </div>
                     </div>
 

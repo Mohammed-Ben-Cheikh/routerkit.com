@@ -1,6 +1,6 @@
 # Documentation Index
 
-Complete documentation for Router-Kit v1.3.1
+Complete documentation for Router-Kit v1.3.4
 
 ---
 
@@ -358,7 +358,7 @@ const component = useDynamicComponents(viewsObject, "paramName");
 
 ## Version Information
 
-- **Current Version:** 1.3.1
+- **Current Version:** 1.3.4
 - **React Version:** >=16 <20
 - **TypeScript:** >=5.2.0
 - **License:** MIT
@@ -393,7 +393,7 @@ We welcome contributions! Here's how to get started:
 
 ## Changelog
 
-### v1.3.1 (Current)
+### v1.3.4 (Current)
 
 - Full TypeScript support with comprehensive types
 - Enhanced error handling system with detailed context

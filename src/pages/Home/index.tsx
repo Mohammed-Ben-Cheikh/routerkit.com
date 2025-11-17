@@ -2,8 +2,11 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "router-kit";
 import MainLayout from "../../components/common/Layout/main";
 import CodeBlock from "../../components/ui/CodeBlock";
+import { useRouterKitVersion } from "../../hooks/useRouterKitVersion";
 
 const Home = () => {
+  const { version, npmInstallCommand } = useRouterKitVersion();
+
   return (
     <MainLayout>
       <Helmet>
@@ -246,7 +249,7 @@ const Home = () => {
               </div>
               <div className="p-4 sm:p-6">
                 <CodeBlock
-                  code="npm install router-kit"
+                  code={npmInstallCommand}
                   language="bash"
                   showLineNumbers={false}
                 />
@@ -269,7 +272,7 @@ const Home = () => {
                     TypeScript Ready
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 rounded-md text-xs font-medium text-blue-400">
-                    v1.3.2
+                    {version}
                   </span>
                 </div>
               </div>
@@ -402,8 +405,8 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             {[
-              { number: "1.3.1", label: "Current Version" },
-              { number: "< 5KB", label: "Bundle Size" },
+              { number: `${version}`, label: "Current Version" },
+              { number: "< 50KB", label: "Bundle Size" },
               { number: "100%", label: "TypeScript" },
               { number: "MIT", label: "License" },
             ].map((stat, index) => (

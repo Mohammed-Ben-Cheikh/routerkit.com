@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.4] - 2025-11-17
+
+### Added
+
+- Updated to latest version with bug fixes and improvements
+- Enhanced npm package distribution
+
+### Previous Releases
+
 ## [1.3.1] - 2025-11-09
 
 ### Added
@@ -146,7 +155,7 @@ Router-Kit follows [Semantic Versioning](https://semver.org/):
 
 ## Migration Guides
 
-### Migrating to 1.3.1
+### Migrating to 1.3.4
 
 No breaking changes. New features are additive.
 
@@ -166,7 +175,7 @@ navigate("/dashboard", { state: { from: "/login" } });
 const component = useDynamicComponents(viewsObject, "view");
 ```
 
-### Migrating to 1.3.0
+### Migrating to 1.3.4
 
 No breaking changes. Enhanced TypeScript support.
 
