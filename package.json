@@ -38,7 +38,10 @@
     "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
+    "@types/js-beautify": "^1.14.3",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "js-beautify": "^1.15.4",
+    "prettier": "^3.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-helmet-async": "^2.0.5",

@@ -12,6 +12,7 @@ const Docs = () => {
     { id: "installation", title: "Installation", icon: "📦" },
     { id: "basic-usage", title: "Basic Usage", icon: "⚡" },
     { id: "routing", title: "Routing", icon: "🔀" },
+    { id: "declarative-routing", title: "Declarative Routing", icon: "🎯" },
     { id: "navigation", title: "Navigation", icon: "🧭" },
     { id: "hooks", title: "Hooks", icon: "🪝" },
     { id: "api-reference", title: "API Reference", icon: "📚" },
@@ -405,6 +406,229 @@ function Navigation() {
 ]);`}
                         language="tsx"
                       />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeSection === "declarative-routing" && (
+                <div>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-gradient">
+                    Declarative Routing
+                  </h1>
+                  <p className="text-white/80 mb-4 sm:mb-6 text-base sm:text-lg">
+                    Router-Kit supports declarative routing using JSX
+                    components, providing an intuitive alternative to the
+                    programmatic approach.
+                  </p>
+
+                  <div className="space-y-6 sm:space-y-8">
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Basic Declarative Routing
+                      </h2>
+                      <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
+                        Use Router and Route components for a more intuitive
+                        routing setup:
+                      </p>
+                      <CodeBlock
+                        code={`import { Router, Route } from "router-kit";
+
+function App() {
+  return (
+    <Router>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/404" element={<NotFound />} />
+    </Router>
+  );
+}`}
+                        language="tsx"
+                      />
+                    </div>
+
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Dynamic Routes
+                      </h2>
+                      <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
+                        Define dynamic parameters in your declarative routes:
+                      </p>
+                      <CodeBlock
+                        code={`<Router>
+  <Route path="/users/:id" element={<UserProfile />} />
+  <Route path="/posts/:category/:slug" element={<BlogPost />} />
+</Router>`}
+                        language="tsx"
+                      />
+                    </div>
+
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Nested Routes
+                      </h2>
+                      <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
+                        Create hierarchical route structures with nested Route
+                        components:
+                      </p>
+                      <CodeBlock
+                        code={`<Router>
+  <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route path="overview" element={<Overview />} />
+    <Route path="settings" element={<Settings />} />
+    <Route path="profile" element={<Profile />} />
+  </Route>
+</Router>`}
+                        language="tsx"
+                      />
+                    </div>
+
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Multiple Path Aliases
+                      </h2>
+                      <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
+                        Support multiple paths for the same component:
+                      </p>
+                      <CodeBlock
+                        code={`<Router>
+  <Route path={["/about", "/about-us", "/info"]} element={<About />} />
+</Router>`}
+                        language="tsx"
+                      />
+                    </div>
+
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Complete Example
+                      </h2>
+                      <p className="text-white/80 mb-3 sm:mb-4 text-sm sm:text-base">
+                        A full application using declarative routing:
+                      </p>
+                      <CodeBlock
+                        code={`import React from "react";
+import { Router, Route, Link, useParams, useRouter } from "router-kit";
+
+const Home = () => (
+  <div>
+    <h1>Welcome</h1>
+    <nav>
+      <Link to="/about">About</Link> | 
+      <Link to="/users/123">User 123</Link> | 
+      <Link to="/dashboard">Dashboard</Link>
+    </nav>
+  </div>
+);
+
+const UserProfile = () => {
+  const { id } = useParams();
+  return (
+    <div>
+      <h1>User Profile: {id}</h1>
+      <Link to="/">Home</Link>
+    </div>
+  );
+};
+
+const Dashboard = () => {
+  const { navigate } = useRouter();
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <button onClick={() => navigate("/dashboard/settings")}>
+        Settings
+      </button>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/users/:id" element={<UserProfile />} />
+      
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="settings" element={<Settings />} />
+      </Route>
+      
+      <Route path="/404" element={<NotFound />} />
+    </Router>
+  );
+}`}
+                        language="tsx"
+                      />
+                    </div>
+
+                    <div>
+                      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-accent-300">
+                        Comparison: Programmatic vs Declarative
+                      </h2>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2 text-accent-300">
+                            Programmatic (Existing)
+                          </h3>
+                          <CodeBlock
+                            code={`const routes = createRouter([
+  { path: "/", component: <Home /> },
+  { path: "/about", component: <About /> },
+  {
+    path: "/dashboard",
+    component: <Dashboard />,
+    children: [
+      { path: "settings", component: <Settings /> }
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider routes={routes} />;
+}`}
+                            language="tsx"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2 text-accent-300">
+                            Declarative (New)
+                          </h3>
+                          <CodeBlock
+                            code={`function App() {
+  return (
+    <Router>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="settings" element={<Settings />} />
+      </Route>
+    </Router>
+  );
+}`}
+                            language="tsx"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-primary-300/10 border border-primary-300/30 rounded-lg p-4 sm:p-6">
+                      <h3 className="text-base sm:text-lg font-bold mb-2 text-accent-300">
+                        ✨ Benefits of Declarative Routing
+                      </h3>
+                      <ul className="text-white/80 space-y-1 text-sm sm:text-base">
+                        <li>• More intuitive JSX-based syntax</li>
+                        <li>• Better visual hierarchy for nested routes</li>
+                        <li>• Familiar to React Router users</li>
+                        <li>
+                          • Improved readability for complex routing structures
+                        </li>
+                        <li>
+                          • Fully compatible with existing hooks and components
+                        </li>
+                        <li>• Same performance as programmatic approach</li>
+                      </ul>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  css as beautifyCss,
+  html as beautifyHtml,
+  js as beautifyJs,
+} from "js-beautify";
+import { format } from "prettier";
+import parserBabel from "prettier/parser-babel";
+import parserHtml from "prettier/parser-html";
+import parserCss from "prettier/parser-postcss";
+import parserTypeScript from "prettier/parser-typescript";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/dracula";
@@ -14,6 +24,7 @@ interface CodeBlockProps {
   expandable?: boolean;
   filename?: string;
   theme?: "vscDarkPlus" | "dracula" | "okaidia";
+  enableFormatting?: boolean; // New prop to enable/disable formatting
 }
 
 const CodeBlock = ({
@@ -26,10 +37,12 @@ const CodeBlock = ({
   expandable = false,
   filename,
   theme = "vscDarkPlus",
+  enableFormatting = true,
 }: CodeBlockProps) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(!expandable);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [formattedCode, setFormattedCode] = useState(code);
   const codeRef = useRef<HTMLDivElement>(null);
 
   const themes = {
@@ -65,43 +78,157 @@ const CodeBlock = ({
     return () => window.removeEventListener("resize", checkScrollable);
   }, [code, maxHeight]);
 
+  const formatCode = useCallback(
+    async (code: string, lang: string): Promise<string> => {
+      try {
+        // Prettier options
+        const prettierOptions = {
+          semi: true,
+          singleQuote: false,
+          tabWidth: 2,
+          trailingComma: "es5" as const,
+          printWidth: 80,
+          bracketSpacing: true,
+          jsxBracketSameLine: false,
+          arrowParens: "avoid" as const,
+        };
+
+        // js-beautify options
+        const beautifyOptions = {
+          indent_size: 2,
+          indent_char: " ",
+          max_preserve_newlines: 2,
+          preserve_newlines: true,
+          keep_array_indentation: false,
+          break_chained_methods: false,
+          indent_scripts: "normal" as const,
+          brace_style: "collapse" as const,
+          space_before_conditional: true,
+          unescape_strings: false,
+          jslint_happy: false,
+          end_with_newline: false,
+          wrap_line_length: 80,
+          indent_inner_html: false,
+          comma_first: false,
+          e4x: false,
+          indent_empty_lines: false,
+        };
+
+        switch (lang) {
+          case "tsx":
+          case "jsx":
+            // Use Prettier for React/JSX code
+            return await format(code, {
+              ...prettierOptions,
+              parser: "babel-ts",
+              plugins: [parserBabel, parserTypeScript],
+            });
+
+          case "typescript":
+          case "ts":
+            // Use Prettier for TypeScript
+            return await format(code, {
+              ...prettierOptions,
+              parser: "typescript",
+              plugins: [parserTypeScript],
+            });
+
+          case "javascript":
+          case "js":
+            // Try Prettier first, fallback to js-beautify
+            try {
+              return await format(code, {
+                ...prettierOptions,
+                parser: "babel",
+                plugins: [parserBabel],
+              });
+            } catch {
+              return beautifyJs(code, beautifyOptions);
+            }
+
+          case "html":
+            // Try Prettier first, fallback to js-beautify
+            try {
+              return await format(code, {
+                ...prettierOptions,
+                parser: "html",
+                plugins: [parserHtml],
+              });
+            } catch {
+              return beautifyHtml(code, beautifyOptions);
+            }
+
+          case "css":
+          case "scss":
+          case "less":
+            // Try Prettier first, fallback to js-beautify
+            try {
+              return await format(code, {
+                ...prettierOptions,
+                parser: "css",
+                plugins: [parserCss],
+              });
+            } catch {
+              return beautifyCss(code, beautifyOptions);
+            }
+
+          case "json":
+            // Use Prettier for JSON
+            return await format(code, {
+              ...prettierOptions,
+              parser: "json",
+              plugins: [parserBabel],
+            });
+
+          default:
+            // For other languages, use js-beautify if it's JavaScript-like
+            if (["jsx", "tsx", "js", "ts"].some((ext) => lang.includes(ext))) {
+              return beautifyJs(code, beautifyOptions);
+            }
+            return code;
+        }
+      } catch (error) {
+        // If all formatting fails, return the original code
+        console.warn("Code formatting failed:", error);
+        return code;
+      }
+    },
+    []
+  );
+
+  // Fallback simple formatter for when Prettier is not needed
   const simpleFormat = (src: string) => {
-    const indentUnit = "  ";
-    const lines = src.replace(/\r/g, "").split("\n");
-    let level = 0;
-    const out: string[] = [];
-
-    for (let rawLine of lines) {
-      if (/^\s*$/.test(rawLine)) {
-        if (out.length === 0 || /^\s*$/.test(out[out.length - 1])) continue;
-        out.push("");
-        continue;
-      }
-
-      rawLine = rawLine.replace(/\t/g, indentUnit).trim();
-      if (/^[)}\]]/.test(rawLine)) {
-        level = Math.max(0, level - 1);
-      }
-
-      out.push(indentUnit.repeat(level) + rawLine);
-
-      if (/[{[(]$/.test(rawLine) || /:\s*$/.test(rawLine)) {
-        level++;
-      }
-    }
-
-    while (out.length && out[0].trim() === "") out.shift();
-    while (out.length && out[out.length - 1].trim() === "") out.pop();
-    return out.join("\n");
+    const lines = src.split("\n");
+    return lines
+      .map((line) => line.trim())
+      .filter((line, index, arr) => {
+        // Remove consecutive empty lines
+        if (line === "" && arr[index - 1] === "") return false;
+        return true;
+      })
+      .join("\n")
+      .trim();
   };
 
-  const formattedCode = (() => {
-    try {
-      return simpleFormat(code);
-    } catch {
-      return code;
-    }
-  })();
+  // Format code when component mounts or code/language changes
+  useEffect(() => {
+    const formatCodeAsync = async () => {
+      if (!enableFormatting) {
+        setFormattedCode(code);
+        return;
+      }
+
+      try {
+        const formatted = await formatCode(code, language);
+        setFormattedCode(formatted);
+      } catch (error) {
+        console.warn("Using fallback formatter:", error);
+        setFormattedCode(simpleFormat(code));
+      }
+    };
+
+    formatCodeAsync();
+  }, [code, language, enableFormatting, formatCode]);
 
   const getLanguageDisplayName = (lang: string) => {
     const languageMap: { [key: string]: string } = {
