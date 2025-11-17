@@ -3,16 +3,89 @@ import {
   html as beautifyHtml,
   js as beautifyJs,
 } from "js-beautify";
-import { format } from "prettier";
-import parserBabel from "prettier/parser-babel";
-import parserHtml from "prettier/parser-html";
-import parserCss from "prettier/parser-postcss";
-import parserTypeScript from "prettier/parser-typescript";
+import type { BuiltInParserName, Options as PrettierOptions } from "prettier";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/dracula";
 import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
+
+type LoadedPrettier = {
+  format: typeof import("prettier/standalone").format;
+  plugins: unknown[];
+};
+
+let prettierLoader: Promise<LoadedPrettier> | null = null;
+
+const loadPrettier = async (): Promise<LoadedPrettier> => {
+  if (!prettierLoader) {
+    prettierLoader = Promise.all([
+      import("prettier/standalone"),
+      import("prettier/plugins/babel"),
+      import("prettier/plugins/estree"),
+      import("prettier/plugins/typescript"),
+      import("prettier/plugins/html"),
+      import("prettier/plugins/postcss"),
+      import("prettier/plugins/yaml"),
+      import("prettier/plugins/markdown"),
+    ]).then(
+      ([
+        prettier,
+        babel,
+        estree,
+        typescript,
+        html,
+        postcss,
+        yaml,
+        markdown,
+      ]) => ({
+        format: prettier.format,
+        plugins: [
+          babel.default,
+          estree.default,
+          typescript.default,
+          html.default,
+          postcss.default,
+          yaml.default,
+          markdown.default,
+        ] as unknown[],
+      })
+    );
+  }
+
+  return prettierLoader;
+};
+
+const getParserFromLanguage = (lang: string): BuiltInParserName | null => {
+  const value = lang.toLowerCase();
+  switch (value) {
+    case "tsx":
+      return "babel-ts";
+    case "jsx":
+    case "javascript":
+    case "js":
+      return "babel";
+    case "typescript":
+    case "ts":
+      return "typescript";
+    case "json":
+      return "json";
+    case "html":
+      return "html";
+    case "css":
+    case "scss":
+    case "less":
+      return "css";
+    case "yaml":
+    case "yml":
+      return "yaml";
+    case "markdown":
+    case "md":
+      return "markdown";
+    default:
+      return null;
+  }
+};
 
 interface CodeBlockProps {
   code: string;
@@ -79,118 +152,70 @@ const CodeBlock = ({
   }, [code, maxHeight]);
 
   const formatCode = useCallback(
-    async (code: string, lang: string): Promise<string> => {
-      try {
-        // Prettier options
-        const prettierOptions = {
-          semi: true,
-          singleQuote: false,
-          tabWidth: 2,
-          trailingComma: "es5" as const,
-          printWidth: 80,
-          bracketSpacing: true,
-          jsxBracketSameLine: false,
-          arrowParens: "avoid" as const,
-        };
+    async (source: string, lang: string): Promise<string> => {
+      const beautifyOptions = {
+        indent_size: 2,
+        indent_char: " ",
+        max_preserve_newlines: 2,
+        preserve_newlines: true,
+        keep_array_indentation: false,
+        break_chained_methods: false,
+        indent_scripts: "normal" as const,
+        brace_style: "collapse" as const,
+        space_before_conditional: true,
+        unescape_strings: false,
+        jslint_happy: false,
+        end_with_newline: false,
+        wrap_line_length: 80,
+        indent_inner_html: false,
+        comma_first: false,
+        e4x: false,
+        indent_empty_lines: false,
+      };
 
-        // js-beautify options
-        const beautifyOptions = {
-          indent_size: 2,
-          indent_char: " ",
-          max_preserve_newlines: 2,
-          preserve_newlines: true,
-          keep_array_indentation: false,
-          break_chained_methods: false,
-          indent_scripts: "normal" as const,
-          brace_style: "collapse" as const,
-          space_before_conditional: true,
-          unescape_strings: false,
-          jslint_happy: false,
-          end_with_newline: false,
-          wrap_line_length: 80,
-          indent_inner_html: false,
-          comma_first: false,
-          e4x: false,
-          indent_empty_lines: false,
-        };
+      const parser = getParserFromLanguage(lang);
 
-        switch (lang) {
-          case "tsx":
-          case "jsx":
-            // Use Prettier for React/JSX code
-            return await format(code, {
-              ...prettierOptions,
-              parser: "babel-ts",
-              plugins: [parserBabel, parserTypeScript],
-            });
+      if (parser) {
+        try {
+          const { format: prettierFormat, plugins } = await loadPrettier();
+          const prettierOptions: PrettierOptions = {
+            semi: true,
+            singleQuote: false,
+            tabWidth: 2,
+            trailingComma: "es5",
+            printWidth: 80,
+            bracketSpacing: true,
+            arrowParens: "avoid",
+            parser,
+            plugins: plugins as PrettierOptions["plugins"],
+          };
 
-          case "typescript":
-          case "ts":
-            // Use Prettier for TypeScript
-            return await format(code, {
-              ...prettierOptions,
-              parser: "typescript",
-              plugins: [parserTypeScript],
-            });
-
-          case "javascript":
-          case "js":
-            // Try Prettier first, fallback to js-beautify
-            try {
-              return await format(code, {
-                ...prettierOptions,
-                parser: "babel",
-                plugins: [parserBabel],
-              });
-            } catch {
-              return beautifyJs(code, beautifyOptions);
-            }
-
-          case "html":
-            // Try Prettier first, fallback to js-beautify
-            try {
-              return await format(code, {
-                ...prettierOptions,
-                parser: "html",
-                plugins: [parserHtml],
-              });
-            } catch {
-              return beautifyHtml(code, beautifyOptions);
-            }
-
-          case "css":
-          case "scss":
-          case "less":
-            // Try Prettier first, fallback to js-beautify
-            try {
-              return await format(code, {
-                ...prettierOptions,
-                parser: "css",
-                plugins: [parserCss],
-              });
-            } catch {
-              return beautifyCss(code, beautifyOptions);
-            }
-
-          case "json":
-            // Use Prettier for JSON
-            return await format(code, {
-              ...prettierOptions,
-              parser: "json",
-              plugins: [parserBabel],
-            });
-
-          default:
-            // For other languages, use js-beautify if it's JavaScript-like
-            if (["jsx", "tsx", "js", "ts"].some((ext) => lang.includes(ext))) {
-              return beautifyJs(code, beautifyOptions);
-            }
-            return code;
+          return await prettierFormat(source, prettierOptions);
+        } catch (error) {
+          console.warn(
+            "Prettier formatting failed, falling back to beautify:",
+            error
+          );
         }
-      } catch (error) {
-        // If all formatting fails, return the original code
-        console.warn("Code formatting failed:", error);
-        return code;
+      }
+
+      switch (lang.toLowerCase()) {
+        case "html":
+          return beautifyHtml(source, beautifyOptions);
+        case "css":
+        case "scss":
+        case "less":
+          return beautifyCss(source, beautifyOptions);
+        case "tsx":
+        case "jsx":
+        case "typescript":
+        case "ts":
+        case "javascript":
+        case "js":
+        case "json":
+          return beautifyJs(source, beautifyOptions);
+        default:
+          return source;
       }
     },
     []
