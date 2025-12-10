@@ -9,6 +9,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/dracula";
 import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
+import type { JSX } from "react";
 
 // ============================================================================
 // Types & Interfaces
