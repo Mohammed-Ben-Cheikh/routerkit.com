@@ -4,16 +4,65 @@ import {
   js as beautifyJs,
 } from "js-beautify";
 import type { BuiltInParserName, Options as PrettierOptions } from "prettier";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/dracula";
 import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
 
+// ============================================================================
+// Types & Interfaces
+// ============================================================================
+
 type LoadedPrettier = {
   format: typeof import("prettier/standalone").format;
   plugins: unknown[];
 };
+
+type ThemeVariant = "vscDarkPlus" | "dracula" | "okaidia" | "custom";
+
+interface CodeBlockProps {
+  /** The code to display */
+  code: string;
+  /** Programming language for syntax highlighting */
+  language?: string;
+  /** Show line numbers */
+  showLineNumbers?: boolean;
+  /** Show copy button */
+  showCopyButton?: boolean;
+  /** Show header with language and controls */
+  showHeader?: boolean;
+  /** Maximum height before scrolling */
+  maxHeight?: string;
+  /** Allow expanding/collapsing */
+  expandable?: boolean;
+  /** Filename to display */
+  filename?: string;
+  /** Color theme */
+  theme?: ThemeVariant;
+  /** Enable code formatting */
+  enableFormatting?: boolean;
+  /** Show footer with stats */
+  showFooter?: boolean;
+  /** Custom title override */
+  title?: string;
+  /** Highlight specific lines (1-indexed) */
+  highlightLines?: number[];
+  /** Show diff indicators */
+  diffMode?: "added" | "removed" | "modified" | null;
+  /** Badge text (e.g., "NEW", "RECOMMENDED") */
+  badge?: string;
+  /** Badge color variant */
+  badgeVariant?: "default" | "success" | "warning" | "info";
+  /** Compact mode with smaller padding */
+  compact?: boolean;
+  /** Glass morphism effect */
+  glassMorphism?: boolean;
+}
+
+// ============================================================================
+// Prettier Loader (Lazy Loading)
+// ============================================================================
 
 let prettierLoader: Promise<LoadedPrettier> | null = null;
 
@@ -52,53 +101,228 @@ const loadPrettier = async (): Promise<LoadedPrettier> => {
       })
     );
   }
-
   return prettierLoader;
 };
 
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
 const getParserFromLanguage = (lang: string): BuiltInParserName | null => {
   const value = lang.toLowerCase();
-  switch (value) {
-    case "tsx":
-      return "babel-ts";
-    case "jsx":
-    case "javascript":
-    case "js":
-      return "babel";
-    case "typescript":
-    case "ts":
-      return "typescript";
-    case "json":
-      return "json";
-    case "html":
-      return "html";
-    case "css":
-    case "scss":
-    case "less":
-      return "css";
-    case "yaml":
-    case "yml":
-      return "yaml";
-    case "markdown":
-    case "md":
-      return "markdown";
-    default:
-      return null;
-  }
+  const parserMap: Record<string, BuiltInParserName> = {
+    tsx: "babel-ts",
+    jsx: "babel",
+    javascript: "babel",
+    js: "babel",
+    typescript: "typescript",
+    ts: "typescript",
+    json: "json",
+    html: "html",
+    css: "css",
+    scss: "css",
+    less: "css",
+    yaml: "yaml",
+    yml: "yaml",
+    markdown: "markdown",
+    md: "markdown",
+  };
+  return parserMap[value] || null;
 };
 
-interface CodeBlockProps {
-  code: string;
-  language?: string;
-  showLineNumbers?: boolean;
-  showCopyButton?: boolean;
-  showHeader?: boolean;
-  maxHeight?: string;
-  expandable?: boolean;
-  filename?: string;
-  theme?: "vscDarkPlus" | "dracula" | "okaidia";
-  enableFormatting?: boolean; // New prop to enable/disable formatting
-}
+const getLanguageIcon = (lang: string): JSX.Element => {
+  const iconMap: Record<string, { color: string; icon: string }> = {
+    tsx: { color: "#3178C6", icon: "TS" },
+    typescript: { color: "#3178C6", icon: "TS" },
+    ts: { color: "#3178C6", icon: "TS" },
+    jsx: { color: "#F7DF1E", icon: "JS" },
+    javascript: { color: "#F7DF1E", icon: "JS" },
+    js: { color: "#F7DF1E", icon: "JS" },
+    python: { color: "#3776AB", icon: "PY" },
+    py: { color: "#3776AB", icon: "PY" },
+    html: { color: "#E34F26", icon: "HT" },
+    css: { color: "#1572B6", icon: "CS" },
+    scss: { color: "#CC6699", icon: "SC" },
+    json: { color: "#000000", icon: "{}" },
+    bash: { color: "#4EAA25", icon: "$_" },
+    shell: { color: "#4EAA25", icon: "$_" },
+    sql: { color: "#336791", icon: "SQ" },
+    rust: { color: "#DEA584", icon: "RS" },
+    go: { color: "#00ADD8", icon: "GO" },
+    java: { color: "#ED8B00", icon: "JV" },
+    cpp: { color: "#00599C", icon: "++" },
+    c: { color: "#A8B9CC", icon: "C" },
+    php: { color: "#777BB4", icon: "PH" },
+    ruby: { color: "#CC342D", icon: "RB" },
+    swift: { color: "#FA7343", icon: "SW" },
+    kotlin: { color: "#7F52FF", icon: "KT" },
+    yaml: { color: "#CB171E", icon: "YM" },
+    yml: { color: "#CB171E", icon: "YM" },
+    markdown: { color: "#083FA1", icon: "MD" },
+    md: { color: "#083FA1", icon: "MD" },
+  };
+
+  const config = iconMap[lang.toLowerCase()] || {
+    color: "#6366F1",
+    icon: lang.slice(0, 2).toUpperCase(),
+  };
+
+  return (
+    <div
+      className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold text-white"
+      style={{ backgroundColor: config.color }}
+    >
+      {config.icon}
+    </div>
+  );
+};
+
+const getLanguageDisplayName = (lang: string): string => {
+  const languageMap: Record<string, string> = {
+    tsx: "TypeScript React",
+    jsx: "JavaScript React",
+    javascript: "JavaScript",
+    typescript: "TypeScript",
+    python: "Python",
+    java: "Java",
+    cpp: "C++",
+    css: "CSS",
+    scss: "SCSS",
+    html: "HTML",
+    json: "JSON",
+    bash: "Bash",
+    shell: "Shell",
+    sql: "SQL",
+    rust: "Rust",
+    go: "Go",
+    php: "PHP",
+    ruby: "Ruby",
+    swift: "Swift",
+    kotlin: "Kotlin",
+    yaml: "YAML",
+    yml: "YAML",
+    markdown: "Markdown",
+    md: "Markdown",
+    ts: "TypeScript",
+    js: "JavaScript",
+    py: "Python",
+  };
+  return languageMap[lang.toLowerCase()] || lang.toUpperCase();
+};
+
+const getBadgeStyles = (variant: string): string => {
+  const variants: Record<string, string> = {
+    default: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30",
+    success: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+    warning: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+    info: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
+  };
+  return variants[variant] || variants.default;
+};
+
+// ============================================================================
+// Icons Components
+// ============================================================================
+
+const CopyIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+    />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M5 13l4 4L19 7"
+    />
+  </svg>
+);
+
+const ExpandIcon = ({ isExpanded }: { isExpanded: boolean }) => (
+  <svg
+    className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M19 9l-7 7-7-7"
+    />
+  </svg>
+);
+
+const TerminalIcon = () => (
+  <svg
+    className="w-3.5 h-3.5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>
+);
+
+const FileIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+    />
+  </svg>
+);
+
+const MaximizeIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+    />
+  </svg>
+);
+
+// ============================================================================
+// Main Component
+// ============================================================================
 
 const CodeBlock = ({
   code,
@@ -111,46 +335,61 @@ const CodeBlock = ({
   filename,
   theme = "vscDarkPlus",
   enableFormatting = true,
+  showFooter = true,
+  title,
+  highlightLines = [],
+  diffMode = null,
+  badge,
+  badgeVariant = "default",
+  compact = false,
+  glassMorphism = false,
 }: CodeBlockProps) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(!expandable);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
   const [formattedCode, setFormattedCode] = useState(code);
+  const [isFormatting, setIsFormatting] = useState(false);
   const codeRef = useRef<HTMLDivElement>(null);
 
-  const themes = {
-    vscDarkPlus,
-    dracula,
-    okaidia,
-  };
+  const themes = useMemo(
+    () => ({
+      vscDarkPlus,
+      dracula,
+      okaidia,
+      custom: vscDarkPlus,
+    }),
+    []
+  );
 
+  // Copy to clipboard handler
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(code);
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      setTimeout(() => setIsCopied(false), 2500);
     } catch (err) {
       console.error("Failed to copy code: ", err);
     }
   };
 
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
+  // Toggle expand handler
+  const toggleExpand = () => setIsExpanded(!isExpanded);
 
-  const checkScrollable = () => {
+  // Check if content is scrollable
+  const checkScrollable = useCallback(() => {
     if (codeRef.current) {
       const { scrollHeight, clientHeight } = codeRef.current;
       setShowScrollIndicator(scrollHeight > clientHeight);
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkScrollable();
     window.addEventListener("resize", checkScrollable);
     return () => window.removeEventListener("resize", checkScrollable);
-  }, [code, maxHeight]);
+  }, [code, maxHeight, checkScrollable]);
 
+  // Format code function
   const formatCode = useCallback(
     async (source: string, lang: string): Promise<string> => {
       const beautifyOptions = {
@@ -175,7 +414,20 @@ const CodeBlock = ({
 
       const parser = getParserFromLanguage(lang);
 
-      if (parser) {
+      // Check if code contains JSX that might cause parsing issues
+      // Code snippets with JSX components in object literals (like route configs)
+      // often can't be parsed as standalone code
+      const hasPartialJsx =
+        /<[A-Z][a-zA-Z]*\s*\/?>/.test(source) &&
+        !source.trim().startsWith("import") &&
+        !source.trim().startsWith("export") &&
+        !source.trim().startsWith("function") &&
+        !source.trim().startsWith("const") &&
+        !source.trim().startsWith("let") &&
+        !source.trim().startsWith("var") &&
+        !source.trim().startsWith("class");
+
+      if (parser && !hasPartialJsx) {
         try {
           const { format: prettierFormat, plugins } = await loadPrettier();
           const prettierOptions: PrettierOptions = {
@@ -189,53 +441,41 @@ const CodeBlock = ({
             parser,
             plugins: plugins as PrettierOptions["plugins"],
           };
-
           return await prettierFormat(source, prettierOptions);
-        } catch (error) {
-          console.warn(
-            "Prettier formatting failed, falling back to beautify:",
-            error
-          );
+        } catch {
+          // Silent fallback for partial code snippets
         }
       }
 
-      switch (lang.toLowerCase()) {
-        case "html":
-          return beautifyHtml(source, beautifyOptions);
-        case "css":
-        case "scss":
-        case "less":
-          return beautifyCss(source, beautifyOptions);
-        case "tsx":
-        case "jsx":
-        case "typescript":
-        case "ts":
-        case "javascript":
-        case "js":
-        case "json":
-          return beautifyJs(source, beautifyOptions);
-        default:
-          return source;
+      // Fallback to beautify for non-parseable code
+      try {
+        switch (lang.toLowerCase()) {
+          case "html":
+            return beautifyHtml(source, beautifyOptions);
+          case "css":
+          case "scss":
+          case "less":
+            return beautifyCss(source, beautifyOptions);
+          case "tsx":
+          case "jsx":
+          case "typescript":
+          case "ts":
+          case "javascript":
+          case "js":
+          case "json":
+            return beautifyJs(source, beautifyOptions);
+          default:
+            return source;
+        }
+      } catch {
+        // If beautify also fails, return original source
+        return source;
       }
     },
     []
   );
 
-  // Fallback simple formatter for when Prettier is not needed
-  const simpleFormat = (src: string) => {
-    const lines = src.split("\n");
-    return lines
-      .map((line) => line.trim())
-      .filter((line, index, arr) => {
-        // Remove consecutive empty lines
-        if (line === "" && arr[index - 1] === "") return false;
-        return true;
-      })
-      .join("\n")
-      .trim();
-  };
-
-  // Format code when component mounts or code/language changes
+  // Format code on mount or when code/language changes
   useEffect(() => {
     const formatCodeAsync = async () => {
       if (!enableFormatting) {
@@ -243,145 +483,153 @@ const CodeBlock = ({
         return;
       }
 
+      setIsFormatting(true);
       try {
         const formatted = await formatCode(code, language);
         setFormattedCode(formatted);
       } catch (error) {
-        console.warn("Using fallback formatter:", error);
-        setFormattedCode(simpleFormat(code));
+        console.warn("Formatting failed:", error);
+        setFormattedCode(code);
+      } finally {
+        setIsFormatting(false);
       }
     };
 
     formatCodeAsync();
   }, [code, language, enableFormatting, formatCode]);
 
-  const getLanguageDisplayName = (lang: string) => {
-    const languageMap: { [key: string]: string } = {
-      tsx: "TypeScript",
-      jsx: "JavaScript",
-      javascript: "JavaScript",
-      typescript: "TypeScript",
-      python: "Python",
-      java: "Java",
-      cpp: "C++",
-      css: "CSS",
-      html: "HTML",
-      json: "JSON",
-      bash: "Bash",
-      shell: "Shell",
-      sql: "SQL",
+  // Calculate stats
+  const stats = useMemo(() => {
+    const lines = formattedCode.split("\n");
+    return {
+      lines: lines.length,
+      characters: formattedCode.length,
+      words: formattedCode.split(/\s+/).filter(Boolean).length,
     };
-    return languageMap[lang] || lang.toUpperCase();
+  }, [formattedCode]);
+
+  // Get diff mode styles
+  const getDiffStyles = () => {
+    if (!diffMode) return "";
+    const styles: Record<string, string> = {
+      added: "border-l-4 border-l-emerald-500",
+      removed: "border-l-4 border-l-red-500",
+      modified: "border-l-4 border-l-amber-500",
+    };
+    return styles[diffMode] || "";
   };
 
+  // Container classes
+  const containerClasses = useMemo(() => {
+    const base =
+      "rounded-xl overflow-hidden shadow-2xl transition-all duration-300 group";
+    const glass = glassMorphism
+      ? "bg-gray-900/80 backdrop-blur-xl border border-white/10"
+      : "bg-[#0d1117] border border-gray-800/50";
+    const diff = getDiffStyles();
+    const hover = "hover:shadow-indigo-500/10 hover:border-gray-700/50";
+    return `${base} ${glass} ${diff} ${hover}`;
+  }, [glassMorphism, diffMode]);
+
   return (
-    <div className="bg-[#1e1e1e] rounded-lg border border-white/10 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+    <div className={containerClasses}>
       {/* Header */}
       {showHeader && (
-        <div className="flex items-center justify-between px-4 py-3 bg-gray-900/50 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            {/* Language Indicator */}
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+        <div className="relative">
+          {/* Gradient line at top */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+
+          <div
+            className={`flex items-center justify-between bg-gradient-to-b from-gray-800/50 to-transparent border-b border-gray-800/50 ${
+              compact ? "px-3 py-2" : "px-4 py-3"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              {/* Window Controls */}
+              <div className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-[#ff5f57] shadow-lg shadow-red-500/20 hover:brightness-110 transition-all cursor-pointer" />
+                <div className="w-3 h-3 rounded-full bg-[#febc2e] shadow-lg shadow-yellow-500/20 hover:brightness-110 transition-all cursor-pointer" />
+                <div className="w-3 h-3 rounded-full bg-[#28c840] shadow-lg shadow-green-500/20 hover:brightness-110 transition-all cursor-pointer" />
               </div>
-              <span className="text-sm font-medium text-gray-300">
-                {getLanguageDisplayName(language)}
-              </span>
+
+              {/* Separator */}
+              <div className="w-px h-4 bg-gray-700" />
+
+              {/* Language Icon & Name */}
+              <div className="flex items-center gap-2">
+                {getLanguageIcon(language)}
+                <span className="text-sm font-medium text-gray-300">
+                  {title || getLanguageDisplayName(language)}
+                </span>
+              </div>
+
+              {/* Filename */}
+              {filename && (
+                <>
+                  <div className="w-px h-4 bg-gray-700" />
+                  <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                    <FileIcon />
+                    <span className="font-mono">{filename}</span>
+                  </div>
+                </>
+              )}
+
+              {/* Badge */}
+              {badge && (
+                <span
+                  className={`ml-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded border ${getBadgeStyles(
+                    badgeVariant
+                  )}`}
+                >
+                  {badge}
+                </span>
+              )}
             </div>
 
-            {/* Filename */}
-            {filename && (
-              <div className="flex items-center gap-2 text-xs text-gray-400">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                {filename}
-              </div>
-            )}
-          </div>
+            <div className="flex items-center gap-1.5">
+              {/* Formatting indicator */}
+              {isFormatting && (
+                <div className="flex items-center gap-1.5 text-xs text-gray-500 mr-2">
+                  <div className="w-3 h-3 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+                  <span>Formatting...</span>
+                </div>
+              )}
 
-          <div className="flex items-center gap-2">
-            {/* Expand/Collapse Button */}
-            {expandable && (
-              <button
-                onClick={toggleExpand}
-                className="p-1.5 rounded-md hover:bg-white/10 transition-colors duration-200"
-                title={isExpanded ? "Collapse" : "Expand"}
-              >
-                <svg
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
-                    isExpanded ? "rotate-180" : ""
+              {/* Expand Button */}
+              {expandable && (
+                <button
+                  onClick={toggleExpand}
+                  className="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-gray-200 transition-all duration-200"
+                  title={isExpanded ? "Collapse" : "Expand"}
+                >
+                  <ExpandIcon isExpanded={isExpanded} />
+                </button>
+              )}
+
+              {/* Copy Button */}
+              {showCopyButton && (
+                <button
+                  onClick={copyToClipboard}
+                  className={`flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 ${
+                    isCopied
+                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                      : "bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 hover:border-indigo-500/40"
                   }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            )}
-
-            {/* Copy Button */}
-            {showCopyButton && (
-              <button
-                onClick={copyToClipboard}
-                className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 active:scale-95"
-              >
-                {isCopied ? (
-                  <>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Copy
-                  </>
-                )}
-              </button>
-            )}
+                  {isCopied ? (
+                    <>
+                      <CheckIcon />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <CopyIcon />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -389,8 +637,8 @@ const CodeBlock = ({
       {/* Code Content */}
       <div
         ref={codeRef}
-        className={`relative transition-all duration-300 ${
-          isExpanded ? "max-h-none" : `max-h-96 overflow-hidden`
+        className={`relative transition-all duration-500 ease-out ${
+          isExpanded ? "max-h-none" : "max-h-96 overflow-hidden"
         }`}
         style={
           isExpanded
@@ -398,12 +646,56 @@ const CodeBlock = ({
             : { maxHeight: maxHeight !== "none" ? maxHeight : "24rem" }
         }
       >
+        {/* Line highlight overlay */}
+        {highlightLines.length > 0 && (
+          <div className="absolute inset-0 pointer-events-none z-10">
+            {/* This would need custom implementation based on line heights */}
+          </div>
+        )}
+
+        <SyntaxHighlighter
+          language={language}
+          style={themes[theme]}
+          showLineNumbers={showLineNumbers}
+          customStyle={{
+            margin: 0,
+            padding: compact ? "1rem" : "1.5rem",
+            background: "transparent",
+            fontSize: compact ? "0.8125rem" : "0.875rem",
+            lineHeight: "1.7",
+            border: "none",
+            borderRadius: 0,
+          }}
+          lineNumberStyle={{
+            minWidth: "3.5em",
+            paddingRight: "1.5em",
+            color: "#4b5563",
+            userSelect: "none",
+            background: "transparent",
+            borderRight: "1px solid rgba(75, 85, 99, 0.2)",
+            marginRight: "1em",
+          }}
+          wrapLines={true}
+          wrapLongLines={true}
+          lineProps={(lineNumber) => {
+            const style: React.CSSProperties = { display: "block" };
+            if (highlightLines.includes(lineNumber)) {
+              style.backgroundColor = "rgba(99, 102, 241, 0.1)";
+              style.borderLeft = "2px solid #6366F1";
+              style.marginLeft = "-2px";
+            }
+            return { style };
+          }}
+        >
+          {formattedCode}
+        </SyntaxHighlighter>
+
         {/* Scroll Indicator */}
         {showScrollIndicator && !isExpanded && (
-          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-gray-900 to-transparent flex items-center justify-center">
-            <div className="flex items-center gap-1 text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded-full">
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0d1117] via-[#0d1117]/80 to-transparent flex items-end justify-center pb-3 pointer-events-none">
+            <div className="flex items-center gap-2 text-xs text-gray-400 bg-gray-800/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-700/50">
               <svg
-                className="w-3 h-3"
+                className="w-3 h-3 animate-bounce"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -415,86 +707,52 @@ const CodeBlock = ({
                   d="M19 14l-7 7m0 0l-7-7m7 7V3"
                 />
               </svg>
-              Scroll to see more
+              <span>Scroll for more</span>
             </div>
           </div>
         )}
-
-        <SyntaxHighlighter
-          language={language}
-          style={themes[theme]}
-          showLineNumbers={showLineNumbers}
-          customStyle={{
-            margin: 0,
-            padding: "1.5rem",
-            background: "#1e1e1e",
-            fontSize: "0.875rem",
-            lineHeight: "1.5",
-            border: "none",
-            borderRadius: 0,
-          }}
-          lineNumberStyle={{
-            minWidth: "3em",
-            paddingRight: "1em",
-            color: "#858585",
-            userSelect: "none",
-            background: "transparent",
-          }}
-          wrapLines={true}
-          wrapLongLines={true}
-        >
-          {formattedCode}
-        </SyntaxHighlighter>
 
         {/* Expand Overlay */}
         {expandable && !isExpanded && (
           <div
-            className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/80 cursor-pointer flex items-end justify-center pb-4"
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0d1117] cursor-pointer flex items-end justify-center pb-6"
             onClick={toggleExpand}
           >
-            <div className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded-lg text-sm text-gray-300 hover:bg-gray-700 transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                />
-              </svg>
-              Click to expand
-            </div>
+            <button className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg text-sm text-indigo-300 transition-all duration-300 backdrop-blur-sm group-hover:border-indigo-500/50">
+              <MaximizeIcon />
+              <span>Expand code</span>
+            </button>
           </div>
         )}
       </div>
 
-      {/* Footer with character/lines count */}
-      <div className="px-4 py-2 bg-gray-900/30 border-t border-white/5 flex justify-between items-center text-xs text-gray-500">
-        <div className="flex items-center gap-4">
-          <span>{formattedCode.split("\n").length} lines</span>
-          <span>{formattedCode.length} characters</span>
+      {/* Footer */}
+      {showFooter && (
+        <div
+          className={`flex items-center justify-between bg-gradient-to-b from-transparent to-gray-900/30 border-t border-gray-800/50 text-xs text-gray-500 ${
+            compact ? "px-3 py-1.5" : "px-4 py-2"
+          }`}
+        >
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1">
+              <span className="text-gray-600">{stats.lines}</span>
+              <span>lines</span>
+            </span>
+            <span className="w-1 h-1 rounded-full bg-gray-700" />
+            <span className="flex items-center gap-1">
+              <span className="text-gray-600">{stats.characters}</span>
+              <span>chars</span>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600">
+            <TerminalIcon />
+            <span className="font-medium bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              Router-Kit
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 10V3L4 14h7v7l9-11h-7z"
-            />
-          </svg>
-          routerkit.com
-        </div>
-      </div>
+      )}
     </div>
   );
 };

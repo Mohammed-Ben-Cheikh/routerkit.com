@@ -7,7 +7,7 @@ import NotFound from "../pages/NotFound";
 
 const router = createRouter([
   {
-    path: ["/", "/home"],
+    path: ["//","//babab", "/home"],
     component: <Home />,
   },
   {

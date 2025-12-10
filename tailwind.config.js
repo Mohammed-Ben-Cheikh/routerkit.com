@@ -5,36 +5,42 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: "#8CCCFC",
-          100: "#7796B9",
-          200: "#2070C4",
-          300: "#1F88F3",
-          400: "#0659D4",
-          500: "#0B222F",
+          50: "#F8FAFC",
+          100: "#E2E8F0",
+          200: "#CBD5E1",
+          300: "#6366F1", // Primary indigo
+          400: "#4F46E5",
+          500: "#0F172A", // Dark background
         },
         accent: {
-          100: "#D8E4EC",
-          200: "#52595C",
-          300: "#FFF95B",
+          100: "#E0E7FF",
+          200: "#8B5CF6", // Secondary purple
+          300: "#10B981", // Success green
+        },
+        indigo: {
+          400: "#818CF8",
+          500: "#6366F1",
+          600: "#4F46E5",
+        },
+        purple: {
+          400: "#A78BFA",
+          500: "#8B5CF6",
+          600: "#7C3AED",
+        },
+        emerald: {
+          400: "#34D399",
+          500: "#10B981",
+          600: "#059669",
         },
       },
       backgroundImage: {
-        "gradient-primary":
-          "linear-gradient(90deg, rgba(11, 34, 47, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-blue":
-          "linear-gradient(90deg, rgba(31, 136, 243, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-light":
-          "linear-gradient(90deg, rgba(216, 228, 236, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-dark":
-          "linear-gradient(90deg, rgba(82, 89, 92, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-sky":
-          "linear-gradient(90deg, rgba(119, 150, 185, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-ocean":
-          "linear-gradient(90deg, rgba(32, 112, 196, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-deep":
-          "linear-gradient(90deg, rgba(6, 89, 212, 1) 0%, rgba(255, 249, 91, 1) 100%)",
-        "gradient-bright":
-          "linear-gradient(90deg, rgba(140, 204, 252, 1) 0%, rgba(255, 249, 91, 1) 100%)",
+        "gradient-primary": "linear-gradient(90deg, #0F172A 0%, #6366F1 100%)",
+        "gradient-blue": "linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%)",
+        "gradient-light": "linear-gradient(90deg, #F8FAFC 0%, #E0E7FF 100%)",
+        "gradient-dark": "linear-gradient(90deg, #1E293B 0%, #0F172A 100%)",
+        "gradient-indigo": "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
+        "gradient-purple": "linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)",
+        "gradient-emerald": "linear-gradient(135deg, #10B981 0%, #34D399 100%)",
       },
     },
   },

@@ -11,18 +11,21 @@ const MainFooter = () => {
               <span className="text-xl sm:text-2xl font-bold text-gradient">
                 Router-Kit
               </span>
+              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                v2.0
+              </span>
             </div>
             <p className="text-white/70 text-xs sm:text-sm mb-3 sm:mb-4 max-w-md">
-              A lightweight, minimal, and powerful client-side routing library
-              for React applications. Simple yet flexible routing without the
-              overhead.
+              A lightweight, type-safe routing library for React with React
+              Router-like API. Features SSR, route guards, data loaders,
+              navigation blocking, and more.
             </p>
             <div className="flex space-x-3 sm:space-x-4">
               <a
                 href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-accent-300 transition-colors"
+                className="text-white/70 hover:text-indigo-400 transition-colors"
                 aria-label="GitHub"
               >
                 <svg
@@ -37,7 +40,7 @@ const MainFooter = () => {
                 href="https://www.npmjs.com/package/router-kit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/70 hover:text-accent-300 transition-colors"
+                className="text-white/70 hover:text-indigo-400 transition-colors"
                 aria-label="NPM"
               >
                 <svg
@@ -60,7 +63,7 @@ const MainFooter = () => {
               <li>
                 <Link
                   to="/"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   Home
                 </Link>
@@ -68,7 +71,7 @@ const MainFooter = () => {
               <li>
                 <Link
                   to="/docs"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   Documentation
                 </Link>
@@ -76,7 +79,7 @@ const MainFooter = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   About
                 </Link>
@@ -84,7 +87,7 @@ const MainFooter = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   Contact
                 </Link>
@@ -103,7 +106,7 @@ const MainFooter = () => {
                   href="https://github.com/Mohammed-Ben-Cheikh/router-kit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   GitHub
                 </a>
@@ -113,26 +116,26 @@ const MainFooter = () => {
                   href="https://www.npmjs.com/package/router-kit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   NPM Package
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                <Link
+                  to="/docs"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   API Reference
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-sm text-white/70 hover:text-accent-300 transition-colors"
+                <Link
+                  to="/docs"
+                  className="text-sm text-white/70 hover:text-indigo-400 transition-colors"
                 >
                   Examples
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -146,7 +149,7 @@ const MainFooter = () => {
               href="https://mohammedbencheikh.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-accent-300 hover:underline"
+              className="text-indigo-400 hover:underline"
             >
               Mohammed Ben Cheikh
             </a>

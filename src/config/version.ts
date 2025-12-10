@@ -5,7 +5,7 @@
  * Update the ROUTER_KIT_VERSION constant to change the version throughout the application.
  */
 
-export const ROUTER_KIT_VERSION = "1.3.4";
+export const ROUTER_KIT_VERSION = "2.0.1";
 
 /**
  * Version utilities
