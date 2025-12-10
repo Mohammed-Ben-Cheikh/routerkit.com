@@ -4,12 +4,12 @@ import {
   js as beautifyJs,
 } from "js-beautify";
 import type { BuiltInParserName, Options as PrettierOptions } from "prettier";
+import type { JSX } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/dracula";
 import okaidia from "react-syntax-highlighter/dist/esm/styles/prism/okaidia";
-import type { JSX } from "react";
 
 // ============================================================================
 // Types & Interfaces
