@@ -371,8 +371,8 @@ function App() {
   return (
     <RouterProvider 
       routes={routes}
-      scrollRestoration="auto"
-      fallback={<div>Loading...</div>}
+      basename="/"
+      fallbackElement={<div>Loading...</div>}
     />
   );
 }
@@ -561,7 +561,7 @@ function DashboardLayout() {
 
 function App() {
   return (
-    <Router basename="/app" fallback={<Loading />}>
+    <Router basename="/app" fallbackElement={<Loading />}>
       <Route path="/" component={<Home />} meta={{ title: 'Home' }} />
       <Route path="/about" component={<About />} />
       <Route path="/users/:id" component={<UserProfile />} />
@@ -1281,7 +1281,7 @@ const { user } = useOutletContext<{ user: User }>();`,
                             name: "RouterProvider",
                             desc: "Main routing provider component",
                             props:
-                              "routes, basename?, scrollRestoration?, fallback?",
+                              "routes, basename?, fallbackElement?",
                           },
                           {
                             name: "Link",
@@ -1301,7 +1301,8 @@ const { user } = useOutletContext<{ user: User }>();`,
                           {
                             name: "Router",
                             desc: "Declarative router wrapper",
-                            props: "basename?, fallback?, scrollRestoration?",
+                            props:
+                              "basename?, fallbackElement?",
                           },
                           {
                             name: "Route",
@@ -1377,8 +1378,7 @@ interface GuardArgs {
                         code={`interface RouterProviderProps {
   routes: Route[];                          // Route configuration
   basename?: string;                        // Base path for all routes
-  scrollRestoration?: 'auto' | 'manual';    // Scroll behavior
-  fallback?: ReactNode;                     // Loading fallback for lazy routes
+  fallbackElement?: ReactNode;                     // Loading fallbackElement for lazy routes
 }`}
                         language="typescript"
                       />
@@ -1499,8 +1499,7 @@ function App() {
     <RouterProvider 
       routes={routes}
       basename="/app"
-      scrollRestoration="auto"
-      fallback={<Loading />}
+      fallbackElement={<Loading />}
     />
   );
 }`}
