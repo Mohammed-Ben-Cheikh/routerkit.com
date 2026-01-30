@@ -613,7 +613,7 @@ function UserList() {
             <div className="bg-primary-500/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
               <div className="flex-shrink-0">
                 <img
-                  src="https://media.licdn.com/dms/image/v2/D4E03AQHtmYGaBz7HHg/profile-displayphoto-scale_200_200/B4EZqbovHjGoAY-/0/1763547743984?e=1767225600&v=beta&t=R_L4o9O6AZNcvd-FAQueWTSz13nZ90Ey4qVmoCAS-iQ"
+                  src="https://avatars.githubusercontent.com/u/176349318?v=4"
                   alt="Mohammed BEN CHEIKH — Full Stack Developer and creator of Router-Kit"
                   width="200"
                   height="200"
